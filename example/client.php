@@ -3,7 +3,7 @@
 require_once('./vendor/autoload.php');
 
 try {
-    $sender = new UralMas\ExternalMailer\Client('http://test2.ru/server.php', 'http://test1.ru/');
+    $sender = new UralMas\ExternalMailer\Client('http://server.ru/', 'http://client.ru/');
 
     $mail = $sender->createMailer();
 
@@ -20,8 +20,8 @@ try {
     $mail->Port = 465;                                  	// TCP port to connect to
 
     //Recipients
-    $mail->setFrom('uralmas1@mail.ru');
-    $mail->addAddress('uralmas1@mail.ru');
+    $mail->setFrom('user@mail.ru');
+    $mail->addAddress('user@mail.ru');
 
     //Attachments
     $mail->addAttachment('testfile.txt');         			// Add attachments
