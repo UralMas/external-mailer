@@ -87,7 +87,9 @@ class PHPMailerInstance extends PHPMailer\PHPMailer
         }
 
         foreach ($this->localAttachments as &$attachment) {
-            $attachment['path'] = $rootLocalFiles . $attachment['path'];
+			if (strpos($attachment['path'], 'http://') === false && strpos($attachment['path'], 'https://') === false) {
+				$attachment['path'] = $rootLocalFiles . $attachment['path'];
+			}
 
             //Check the file
             if (strpos(@get_headers($attachment['path'])[0], '200 OK') === false) {
