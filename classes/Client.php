@@ -111,11 +111,6 @@ class Client
 
             $json = json_decode($response);
 
-            var_dump($response);
-            exit();
-            print_r($json);
-            exit();
-
             switch ($json->type) {
                 case 'error':
                     throw new ExternalMailerException($json->message);
