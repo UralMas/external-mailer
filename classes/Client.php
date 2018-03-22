@@ -124,7 +124,7 @@ class Client
             }
         }
 
-        return $this->result;
+        return boolval($this->result['success']);
     }
 
     /**
@@ -135,6 +135,16 @@ class Client
     public function getMessages()
     {
         return $this->errorMessages;
+    }
+
+    /**
+     * Get result
+     *
+     * @return array
+     */
+    public function getResult()
+    {
+        return $this->result;
     }
 
     /**
