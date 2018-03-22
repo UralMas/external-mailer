@@ -9,7 +9,7 @@
 PHPMailer is available on [Packagist](https://packagist.org/packages/uralmas/external-mailer), and installation via [Composer](https://getcomposer.org) is the recommended way to install ExternalMailer. Just add this line to your `composer.json` file:
 
 ```json
-"uralmas/external-mailer": "^0.1.0"
+"uralmas/external-mailer": "~0.1.0"
 ```
 
 or run
