@@ -111,11 +111,6 @@ class Client
 
             $json = json_decode($response);
 
-            var_dump($response);
-            exit();
-            print_r($json);
-            exit();
-
             switch ($json->type) {
                 case 'error':
                     throw new ExternalMailerException($json->message);
@@ -129,7 +124,7 @@ class Client
             }
         }
 
-        return $this->result;
+        return boolval($this->result['success']);
     }
 
     /**
@@ -140,6 +135,16 @@ class Client
     public function getMessages()
     {
         return $this->errorMessages;
+    }
+
+    /**
+     * Get result
+     *
+     * @return array
+     */
+    public function getResult()
+    {
+        return $this->result;
     }
 
     /**
