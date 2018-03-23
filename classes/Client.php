@@ -110,6 +110,10 @@ class Client
             }
 
             $json = json_decode($response);
+			
+			if ($response === '' || json_last_error != JSON_ERROR_NONE || ! isset($json->type)) {
+				throw new ExternalMailerException('Server return invalid data');
+			}
 
             switch ($json->type) {
                 case 'error':
