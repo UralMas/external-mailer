@@ -15,7 +15,6 @@
 
 namespace UralMas\ExternalMailer;
 
-use ExternalMailer\ExternalMailer\Exception;
 use PHPMailer\PHPMailer;
 
 class PHPMailerInstance extends PHPMailer\PHPMailer
@@ -32,7 +31,7 @@ class PHPMailerInstance extends PHPMailer\PHPMailer
      *
      * @var string
      */
-    public $messages = '';
+    static $messages = '';
 
     /**
      * Constructor.
@@ -106,15 +105,15 @@ class PHPMailerInstance extends PHPMailer\PHPMailer
      *
      * @return void
      */
-    public function logMessage($str, $level = 0)
+    public static function logMessage($str, $level = 0)
     {
         //Normalize line breaks
         $str = preg_replace('/\r\n|\r/ms', "\n", $str);
 
-        $this->messages .= gmdate('Y-m-d H:i:s') . "\t";
+        self::$messages .= gmdate('Y-m-d H:i:s') . "\t";
 
         //Trim trailing space
-        $this->messages .= trim(
+        self::$messages .= trim(
             //Indent for readability, except for trailing break
             str_replace(
                 "\n",
@@ -123,6 +122,6 @@ class PHPMailerInstance extends PHPMailer\PHPMailer
             )
         );
 
-        $this->messages .= "\n";
+        self::$messages .= "\n";
     }
 }

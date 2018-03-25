@@ -15,9 +15,6 @@
 
 namespace UralMas\ExternalMailer;
 
-use ExternalMailer\ExternalMailer\Exception as ExternalMailerException;
-use PHPMailer\PHPMailer\Exception as PHPMailerException;
-
 class Client
 {
     /**
@@ -85,18 +82,18 @@ class Client
     /**
      * Sending messages to ExternalMailer Server.
      *
-     * @throws ExternalMailerException
+     * @throws Exception
      *
      * @return array
      */
     public function send()
     {
         if (empty($this->url)) {
-            throw new ExternalMailerException('URL not specified');
+            throw new Exception('URL not specified');
         }
 
         if (empty($this->mails)) {
-            throw new ExternalMailerException('No count mail, which prepare to send');
+            throw new Exception('No count mail, which prepare to send');
         }
 
         $this->clearResult();
@@ -106,14 +103,18 @@ class Client
             $response = $this->request($mail);
 
             if ($response === false) {
-                throw new ExternalMailerException('Server is not available');
+                throw new Exception('Server is not available');
             }
 
             $json = json_decode($response);
+			
+			if ($response === '' || json_last_error() != JSON_ERROR_NONE || ! isset($json->type)) {
+				throw new Exception('Server return invalid data');
+			}
 
             switch ($json->type) {
                 case 'error':
-                    throw new ExternalMailerException($json->message);
+                    throw new Exception($json->message);
                 case 'fail':
                     $this->result['fail']++;
                     $this->errorMessages[] = $json->message;
@@ -175,7 +176,7 @@ class Client
      *
      * @param PHPMailerInstance $mail Instance of PHPMailer
      *
-     * @throws ExternalMailerException
+     * @throws Exception
      *
      * @return string|bool
      */
