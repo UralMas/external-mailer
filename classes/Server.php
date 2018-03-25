@@ -15,7 +15,7 @@
 
 namespace UralMas\ExternalMailer;
 
-use PHPMailer\PHPMailer\Exception as PHPMailerException;
+use PHPMailer\PHPMailer;
 
 class Server
 {
@@ -51,16 +51,18 @@ class Server
         } else {
             $result = [];
 
+            $mailer = $this->mailer;
+
             try {
-                $this->mailer->Debugoutput = [
+                $mailer->Debugoutput = [
                     __NAMESPACE__ . '\PHPMailerInstance',
                     'logMessage'
                 ];
 
                 //Insert files
-                if (! empty($this->mailer->localAttachments)) {
-                    foreach ($this->mailer->localAttachments as $attachment) {
-                        $this->mailer->addStringAttachment(
+                if (! empty($mailer->localAttachments)) {
+                    foreach ($mailer->localAttachments as $attachment) {
+                        $mailer->addStringAttachment(
                             (string) file_get_contents($attachment['path']),
                             $attachment['name'],
                             $attachment['encoding'],
@@ -70,14 +72,14 @@ class Server
                     }
                 }
 
-                $this->mailer->send();
-
+                $mailer->send();
+				
                 $result['type'] = 'success';
-            } catch (PHPMailerException $e) {
+            } catch (PHPMailer\Exception $e) {
                 $result['type'] = 'error';
             }
 
-            $result['message'] = $this->mailer->messages;
+            $result['message'] = $mailer::$messages;
         }
 
         return json_encode($result);

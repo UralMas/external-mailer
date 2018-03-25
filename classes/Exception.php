@@ -13,7 +13,7 @@
  * FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-namespace ExternalMailer\ExternalMailer;
+namespace UralMas\ExternalMailer;
 
 class Exception extends \Exception
 {
